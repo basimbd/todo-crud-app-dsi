@@ -1,6 +1,8 @@
 import '../App.css';
 import { useState } from "react";
 import TodoUpdate from "./TodoUpdate";
+import { ReactComponent as EditIcon } from "../icons/edit-solid.svg";
+import { ReactComponent as DeleteIcon } from "../icons/trash-alt-solid.svg";
 
 function TodoCard({ index, todo, todoUpdater, todoDeleter }){
     const [showModal, setShowModal] = useState(false)
@@ -16,17 +18,17 @@ function TodoCard({ index, todo, todoUpdater, todoDeleter }){
 
     return(
         <div className={"card gray-shadow-md"}>
-            <div>
+            <div className={"todo-info"}>
                 <h1>Name: {todo.name}</h1>
-                <h4>Email: {todo.email}</h4>
+                <h4 className={"overflow-break-word"}>Email: {todo.email}</h4>
                 <p><b>Description:</b> {todo.desc}</p>
             </div>
-            <div className={"flex flex-row"}>
-                <button className={{backgroundImage: `url("icons/edit-solid.svg")`}} onClick={openModal}>U</button>
+            <div className={"edit-delete"}>
+                <button className={"icon"} onClick={openModal}><EditIcon/></button>
                 {
                     showModal && <TodoUpdate {...{index, todo, todoUpdater, closeModal}}/>
                 }
-                <button className={{backgroundImage: `url("icons/trash-alt-solid.svg")`}} onClick={handleDelete}>D</button>
+                <button className={"icon"} onClick={handleDelete}><DeleteIcon/></button>
             </div>
         </div>
     )

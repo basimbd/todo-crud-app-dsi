@@ -48,7 +48,7 @@ function TodoCreate({ todoCreator }) {
 
     return (
         <div className={"container blue-shadow-lg"}>
-            <h1>Create Your Todos List</h1>
+            <h1 className={"title"}>Create Your Todos List</h1>
             <form className={"form-container"} onSubmit={handleFormSubmit}>
                 {/*<label/>*/}
                 <input name={"name"} className={"input-field gray-shadow-md"} type={"text"} value={nameField} onChange={changeName} placeholder={"Name"}/>
