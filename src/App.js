@@ -1,12 +1,10 @@
 import './App.css';
 
-import React, { useState } from "react";
-
-import TodoCreate from "./components/TodoCreate";
-import TodoList from "./components/TodoList";
+import TodoContextProvider from "./contexts/TodoContextProvider";
+import Main from "./components/main/Main";
 
 function App() {
-    const [todos, setTodos] = useState([])
+    /*const [todos, setTodos] = useState([])
 
     const createTodos = (todo) => setTodos(todos.concat(todo))
     const deleteTodos = (index) => {
@@ -23,7 +21,12 @@ function App() {
             <TodoCreate todoCreator={createTodos}/>
             <TodoList {...{todos, todoUpdater: updateTodos, todoDeleter:deleteTodos}}/>
         </div>
-    );
+    );*/
+    return (
+        <TodoContextProvider>
+            <Main/>
+        </TodoContextProvider>
+    )
 }
 
 export default App;
