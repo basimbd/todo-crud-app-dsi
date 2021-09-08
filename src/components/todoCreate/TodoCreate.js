@@ -1,5 +1,6 @@
 import "./TodoCreate.css"
 
+import {ACTIONS} from "../../contexts/TodoReducer";
 import React, {useContext, useEffect, useState} from "react";
 import {TodoContext} from "../../contexts/TodoContextProvider";
 import useClickedOutside from "../../hooks/useClickedOutside";
@@ -7,7 +8,7 @@ import useClickedOutside from "../../hooks/useClickedOutside";
 function TodoCreate({ type, passedTodo, closeModal }){
     const updateModal = useClickedOutside(closeModal)
 
-    const [todos, setTodos] = useContext(TodoContext);
+    const [todos, dispatch] = useContext(TodoContext)
     const [todo, setTodo] = useState({
         //id: null,
         name: "",
@@ -17,7 +18,6 @@ function TodoCreate({ type, passedTodo, closeModal }){
 
     useEffect(() => {
         if(passedTodo && !todo.id){
-            //console.log("Setting todo_ with the passedTodo")
             setTodo({
                 id: passedTodo.id,                  // Reassigning todos values
                 name: passedTodo.name,              // if it is an update operation
@@ -33,25 +33,28 @@ function TodoCreate({ type, passedTodo, closeModal }){
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        if(!passedTodo && !todo.id && type === "create"){
-            setTodos([...todos, {...todo, id:(todos.length+1) }])
+        if(!passedTodo && !todo.id && type === ACTIONS.CREATE_TODO){
+            dispatch({
+                type: ACTIONS.CREATE_TODO,
+                todo:{...todo, id:(todos.length+1)},
+            });
             setTodo({
                 //id: null,
                 name: "",
                 email: "",
                 desc: "",
             })
-        } else if(type === "update"){
-            //console.log("Entered Update")
-            const newTodos = [...todos]
-            newTodos[(todo.id-1)] = todo
-            setTodos(newTodos)
+        } else if(type === ACTIONS.UPDATE_TODO){
+            dispatch({
+                type: ACTIONS.UPDATE_TODO,
+                todo:{...todo},
+            });
             closeModal();
         }
     }
 
     //console.log("Rendering TodoCreate...");
-    if (type === "create"){
+    if (type === ACTIONS.CREATE_TODO){
         return (
             <div className={"container blue-shadow-lg"}>
                 <h1 className={"title"}>Create Your Todos List</h1>
@@ -63,7 +66,7 @@ function TodoCreate({ type, passedTodo, closeModal }){
                 </form>
             </div>
         )
-    } else if(type === "update"){
+    } else if(type === ACTIONS.UPDATE_TODO){
         return (
             <div className={"modal-container"}>
                 <div ref={updateModal} className={"modal-content blue-shadow-lg"}>

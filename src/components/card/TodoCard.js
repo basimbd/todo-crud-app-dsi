@@ -1,5 +1,6 @@
 import "./TodoCard.css"
 
+import {ACTIONS} from "../../contexts/TodoReducer";
 import { useState, useContext } from "react";
 import {ReactComponent as EditIcon} from "../../icons/edit-solid.svg";
 import {ReactComponent as DeleteIcon} from "../../icons/trash-alt-solid.svg";
@@ -7,7 +8,8 @@ import TodoCreate from "../todoCreate/TodoCreate";
 import {TodoContext} from "../../contexts/TodoContextProvider";
 
 function TodoCard(todo){
-    const [todos, setTodos] = useContext(TodoContext);
+    // eslint-disable-next-line
+    const [todos, dispatch] = useContext(TodoContext)
     const [showModal, setShowModal] = useState(false)
 
     const closeModal = () => setShowModal(false)
@@ -15,14 +17,10 @@ function TodoCard(todo){
 
     const handleDelete = () => {
         if(window.confirm("Are you sure you want to delete this todo?")) {
-            const newTodos = [];
-            let j=0;
-            for(let currentTodo of todos){
-                if(currentTodo.id !== todo.id){
-                    newTodos.push({...currentTodo, id:++j})
-                }
-            }
-            setTodos(newTodos)
+            dispatch({
+                type: ACTIONS.DELETE_TODO,
+                todo:{...todo},
+            });
         }
     }
 
@@ -37,7 +35,7 @@ function TodoCard(todo){
             <div className={"edit-delete"}>
                 <button className={"icon"} onClick={openModal}><EditIcon/></button>
                 {
-                    showModal && <TodoCreate {...{type:"update", passedTodo:todo, closeModal:closeModal}}/>
+                    showModal && <TodoCreate {...{type:ACTIONS.UPDATE_TODO, passedTodo:todo, closeModal:closeModal}}/>
                 }
                 <button className={"icon"} onClick={handleDelete}><DeleteIcon/></button>
             </div>
