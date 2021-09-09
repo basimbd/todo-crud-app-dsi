@@ -1,25 +1,20 @@
-export const ACTIONS = {
-    CREATE_TODO: "create-todo",
-    UPDATE_TODO: "update-todo",
-    DELETE_TODO: "delete-todo",
-}
+import {ACTIONS} from "../data/actions";
 
-function TodoReducer(state, action) {
-    switch (action.type) {
+function TodoReducer(state, {type, todo}) {
+    switch (type) {
         case ACTIONS.CREATE_TODO:
-            return state.concat(action.todo)
+            return [...state, todo]
 
         case ACTIONS.UPDATE_TODO: {
-            const newTodos = [...state]
-            newTodos[(action.todo.id - 1)] = action.todo
-            return newTodos
+            state[(todo.id - 1)] = todo
+            return state
         }
 
         case ACTIONS.DELETE_TODO: {
             const newTodos = [];
             let j = 0;
             for (let currentTodo of state) {
-                if (currentTodo.id !== action.todo.id) {
+                if (currentTodo.id !== todo.id) {
                     newTodos.push({...currentTodo, id: ++j})
                 }
             }

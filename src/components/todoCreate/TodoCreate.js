@@ -9,14 +9,19 @@ function TodoCreate({ type, passedTodo, closeModal }){
     const updateModal = useClickedOutside(closeModal)
 
     const [todos, dispatch] = useContext(TodoContext)
-    const [todo, setTodo] = useState({
+    const [todo, setTodo] = useState((passedTodo && type === ACTIONS.UPDATE_TODO) ? {
+        id: passedTodo.id,                  // Reassigning todos values
+        name: passedTodo.name,              // if it is an update operation
+        email: passedTodo.email,
+        desc: passedTodo.desc,
+    } : {
         //id: null,
         name: "",
         email: "",
         desc: "",
     });
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(passedTodo && !todo.id){
             setTodo({
                 id: passedTodo.id,                  // Reassigning todos values
@@ -25,7 +30,7 @@ function TodoCreate({ type, passedTodo, closeModal }){
                 desc: passedTodo.desc,
             })
         }
-    }, [passedTodo, todo.id])
+    }, [passedTodo, todo.id])*/
 
     const changeField = e => {
         setTodo({...todo,[e.target.name]:e.target.value})
