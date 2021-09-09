@@ -10,7 +10,7 @@ function TodoReducer(state, {type, todo}) {
         case ACTIONS.UPDATE_TODO: {
             state[(todo.id - 1)] = todo
             console.log(state);
-            return state
+            return [...state]
         }
 
         case ACTIONS.DELETE_TODO: {
