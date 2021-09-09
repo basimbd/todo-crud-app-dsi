@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 
-export default function useClickedOutside(passedFunction){
+export default function useClickedOutside(passedFunction, backgroundNode){
     const domNode = useRef()
     console.log("Rendering useClickedOutside: ", domNode);
 
@@ -12,10 +12,16 @@ export default function useClickedOutside(passedFunction){
             }
         }
 
-        document.addEventListener("mousedown", handler)
+        let prevBackgroundNode;
+        if(backgroundNode.current){
+            backgroundNode.current.addEventListener("mousedown", handler)
+            prevBackgroundNode = backgroundNode;
+        }
 
         return () => {
-            document.removeEventListener("mousedown", handler)
+            if(prevBackgroundNode && prevBackgroundNode.current){
+                prevBackgroundNode.current.removeEventListener("mousedown", handler)
+            }
         }
     })
 

@@ -1,6 +1,6 @@
 import "./Main.css"
 
-import {ACTIONS} from "../../contexts/TodoReducer";
+import {ACTIONS} from "../../data/actions";
 import React from "react";
 
 import TodoList from "../todoList/TodoList";

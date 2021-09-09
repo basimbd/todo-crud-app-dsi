@@ -1,12 +1,13 @@
 import "./TodoCreate.css"
 
-import {ACTIONS} from "../../contexts/TodoReducer";
-import React, {useContext, useEffect, useState} from "react";
+import {ACTIONS} from "../../data/actions";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {TodoContext} from "../../contexts/TodoContextProvider";
 import useClickedOutside from "../../hooks/useClickedOutside";
 
 function TodoCreate({ type, passedTodo, closeModal }){
-    const updateModal = useClickedOutside(closeModal)
+    const backgroundArea = useRef();
+    const updateModal = useClickedOutside(closeModal, backgroundArea)
 
     const [todos, dispatch] = useContext(TodoContext)
     const [todo, setTodo] = useState((passedTodo && type === ACTIONS.UPDATE_TODO) ? {
@@ -38,6 +39,21 @@ function TodoCreate({ type, passedTodo, closeModal }){
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
+
+        if(todo.name === ""){
+            alert("Name cannot be empty.");
+            return false
+        }
+        if(todo.email === ""){
+            alert("Email cannot be empty.");
+            return false
+        }
+        if(todo.desc === ""){
+            alert("Description cannot be empty.");
+            return false
+        }
+
+
         if(!passedTodo && !todo.id && type === ACTIONS.CREATE_TODO){
             dispatch({
                 type: ACTIONS.CREATE_TODO,
@@ -50,6 +66,8 @@ function TodoCreate({ type, passedTodo, closeModal }){
                 desc: "",
             })
         } else if(type === ACTIONS.UPDATE_TODO){
+            console.log("sending type: ", ACTIONS.UPDATE_TODO);
+            console.log("sending todo: ", todo);
             dispatch({
                 type: ACTIONS.UPDATE_TODO,
                 todo:{...todo},
@@ -73,7 +91,7 @@ function TodoCreate({ type, passedTodo, closeModal }){
         )
     } else if(type === ACTIONS.UPDATE_TODO){
         return (
-            <div className={"modal-container"}>
+            <div ref={backgroundArea} className={"modal-container"}>
                 <div ref={updateModal} className={"modal-content blue-shadow-lg"}>
                     <div className={"height-50"}><span className={"cross"} onClick={closeModal}>+</span></div>
                     <h1>Update Your Todo</h1>

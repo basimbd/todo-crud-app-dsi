@@ -1,6 +1,6 @@
 import "./TodoCard.css"
 
-import {ACTIONS} from "../../contexts/TodoReducer";
+import {ACTIONS} from "../../data/actions";
 import { useState, useContext } from "react";
 import {ReactComponent as EditIcon} from "../../icons/edit-solid.svg";
 import {ReactComponent as DeleteIcon} from "../../icons/trash-alt-solid.svg";
