@@ -4,6 +4,7 @@ import TodoCard from "../card/TodoCard";
 
 function TodoList(){
     const [todos] = useContext(TodoContext)
+
     if(todos.length !== 0){
         return (
             <div className={"container blue-shadow-lg"}>

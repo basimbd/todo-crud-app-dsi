@@ -2,11 +2,9 @@ import {useEffect, useRef} from "react";
 
 export default function useClickedOutside(passedFunction, backgroundNode){
     const domNode = useRef()
-    console.log("Rendering useClickedOutside: ", domNode);
 
     useEffect(() => {
         const handler = (event) => {
-            console.log("Running in clicked outside!")
             if(domNode.current && !domNode.current.contains(event.target)){
                 passedFunction()
             }

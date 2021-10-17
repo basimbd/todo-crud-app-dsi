@@ -1,7 +1,7 @@
 import "./TodoCreate.css"
 
 import {ACTIONS} from "../../data/actions";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {TodoContext} from "../../contexts/TodoContextProvider";
 import useClickedOutside from "../../hooks/useClickedOutside";
 
@@ -21,17 +21,6 @@ function TodoCreate({ type, passedTodo, closeModal }){
         email: "",
         desc: "",
     });
-
-    /*useEffect(() => {
-        if(passedTodo && !todo.id){
-            setTodo({
-                id: passedTodo.id,                  // Reassigning todos values
-                name: passedTodo.name,              // if it is an update operation
-                email: passedTodo.email,
-                desc: passedTodo.desc,
-            })
-        }
-    }, [passedTodo, todo.id])*/
 
     const changeField = e => {
         setTodo({...todo,[e.target.name]:e.target.value})
@@ -66,8 +55,6 @@ function TodoCreate({ type, passedTodo, closeModal }){
                 desc: "",
             })
         } else if(type === ACTIONS.UPDATE_TODO){
-            console.log("sending type: ", ACTIONS.UPDATE_TODO);
-            console.log("sending todo: ", todo);
             dispatch({
                 type: ACTIONS.UPDATE_TODO,
                 todo:{...todo},
@@ -76,7 +63,6 @@ function TodoCreate({ type, passedTodo, closeModal }){
         }
     }
 
-    //console.log("Rendering TodoCreate...");
     if (type === ACTIONS.CREATE_TODO){
         return (
             <div className={"container blue-shadow-lg"}>
